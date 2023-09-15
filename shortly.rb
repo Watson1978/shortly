@@ -7,7 +7,6 @@ Ilios::Cassandra.config = {
   keyspace: 'ilios',
 }
 
-
 get '/' do
   <<-HTML
   <form action="/regist" method="post">
@@ -20,8 +19,9 @@ end
 get '/url/:id' do
   id = params[:id]
 
-  session = Ilios::Cassandra.connect
-  statement = session.prepare("SELECT * FROM ilios.shortly WHERE id = '#{id}'")
+  session = Ilios::Cassandra.session
+  statement = session.prepare("SELECT * FROM ilios.shortly WHERE id = ?")
+  statement.bind({id: id})
   result = session.execute(statement)
 
   url = ''
@@ -36,8 +36,9 @@ post '/regist' do
   url_for_base62 = url.delete("^(0-9)|(a-z)|(A-Z)")
   id = Base62.decode(url_for_base62)
 
-  session = Ilios::Cassandra.connect
-  statement = session.prepare("INSERT INTO ilios.shortly (id, url) VALUES ('#{id}', '#{url}')")
+  session = Ilios::Cassandra.session
+  statement = session.prepare("INSERT INTO ilios.shortly (id, url) VALUES (?, ?)")
+  statement.bind({id: id.to_s, url: url})
   session.execute(statement)
 
   id.to_s

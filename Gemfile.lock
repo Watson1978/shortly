@@ -1,14 +1,18 @@
 GIT
   remote: https://github.com/Watson1978/ilios.git
-  revision: d83d5b7f66de649396bc3e32356e508d683388de
+  revision: cc85b2c01bdc0f7b9f9cc9ee03a7b0707175e190
   specs:
     ilios (0.1.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
+    base62-rb (0.3.1)
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
+    nio4r (2.5.9)
+    puma (6.3.1)
+      nio4r (~> 2.0)
     rack (2.2.7)
     rack-protection (3.0.6)
       rack
@@ -24,7 +28,9 @@ PLATFORMS
   arm64-darwin-22
 
 DEPENDENCIES
+  base62-rb (~> 0.3.1)
   ilios!
+  puma (~> 6.3)
   sinatra (~> 3.0)
 
 BUNDLED WITH
